@@ -1,10 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import './Layout.css';
 
 const Layout = ({ children }) => {
   const { temaOscuro, toggleTema } = useApp();
   const location = useLocation();
+
+  useEffect(() => {
+    document.body.className = temaOscuro ? 'dark' : '';
+  }, [temaOscuro]);
 
   return (
     <div className={`app ${temaOscuro ? 'dark' : 'light'}`}>

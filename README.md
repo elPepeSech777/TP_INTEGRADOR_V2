@@ -1,16 +1,81 @@
-# React + Vite
+# Mi Presupuesto 💰
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una aplicación web para gestionar gastos e ingresos personales desarrollada con React.
 
-Currently, two official plugins are available:
+## 🚀 Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Gestión de movimientos**: Registra ingresos y gastos con descripción, categoría, monto y fecha
+- **Filtros y búsqueda**: Filtra por tipo, categoría, texto y ordena por fecha o monto
+- **Resumen financiero**: Visualiza totales, balance y distribución de gastos
+- **Tema oscuro**: Alterna entre tema claro y oscuro
+- **Persistencia**: Los datos se guardan en localStorage
+- **Responsive**: Diseño adaptable a diferentes dispositivos
 
-## React Compiler
+## 🛠️ Tecnologías
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 18 + Vite
+- React Router DOM
+- Formik + Yup
+- Chart.js
+- CSS Modules
+- localStorage
 
-## Expanding the ESLint configuration
+## 📦 Instalación
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Clona el repositorio:
+```bash
+git clone https://github.com/tu-usuario/mi-presupuesto.git
+cd mi-presupuesto
+```
+
+2. Instala las dependencias:
+```bash
+npm install
+```
+
+3. Ejecuta el proyecto:
+```bash
+npm run dev
+```
+
+## 🎯 Funcionalidades
+
+### Listado de Movimientos
+- Visualiza todos los ingresos y gastos
+- Filtra por descripción, categoría y tipo
+- Ordena por fecha o monto
+- Elimina movimientos
+
+### Nuevo Movimiento
+- Formulario validado con Formik + Yup
+- Categorías predefinidas
+- Validación de campos requeridos
+- Fecha máxima: hoy
+
+### Resumen
+- Total de ingresos y gastos
+- Balance general
+- Distribución de gastos por categoría
+- Evolución mensual
+
+### Ajustes
+- Toggle de tema oscuro
+- Limpieza de datos
+- Información de la aplicación
+
+## 👥 Integrantes
+
+- **jpaterno11** - Estructura base y componentes principales
+- **elPepeSech777** - Mejoras de UI/UX y tema oscuro
+
+## 📱 Capturas
+
+*Las capturas se agregarán en la siguiente entrega*
+
+## 🚀 Deploy
+
+*El deploy se realizará en la siguiente entrega*
+
+## 📝 Licencia
+
+Este proyecto es parte de un trabajo práctico académico.
