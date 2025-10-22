@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 import { CATEGORIAS, TIPOS } from '../utils/constants';
 import './Listado.css';
 
 const Listado = () => {
   const { movimientos, eliminarMovimiento } = useApp();
+  const navigate = useNavigate();
   const [filtros, setFiltros] = useState({
     texto: '',
     categoria: '',
@@ -113,12 +115,20 @@ const Listado = () => {
                 <span className={`monto ${mov.tipo}`}>
                   {mov.tipo === TIPOS.INGRESO ? '+' : '-'}{formatearMonto(mov.monto)}
                 </span>
-                <button
-                  onClick={() => eliminarMovimiento(mov.id)}
-                  className="btn-eliminar"
-                >
-                  Eliminar
-                </button>
+                <div className="botones-movimiento">
+                  <button
+                    onClick={() => navigate(`/editar/${mov.id}`)}
+                    className="btn-editar"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => eliminarMovimiento(mov.id)}
+                    className="btn-eliminar"
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </div>
           ))
