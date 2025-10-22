@@ -21,6 +21,7 @@ export const AppProvider = ({ children }) => {
     const nuevoMovimiento = {
       ...movimiento,
       id: Date.now().toString(),
+      monto: Number(movimiento.monto),
       fecha: new Date(movimiento.fecha).toISOString()
     };
     setMovimientos(prev => [...prev, nuevoMovimiento]);
@@ -30,7 +31,7 @@ export const AppProvider = ({ children }) => {
     setMovimientos(prev => 
       prev.map(mov => 
         mov.id === id 
-          ? { ...movimientoActualizado, id, fecha: new Date(movimientoActualizado.fecha).toISOString() }
+          ? { ...movimientoActualizado, id, monto: Number(movimientoActualizado.monto), fecha: new Date(movimientoActualizado.fecha).toISOString() }
           : mov
       )
     );
