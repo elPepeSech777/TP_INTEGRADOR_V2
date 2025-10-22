@@ -1,3 +1,7 @@
+En el repositorio anterior hubo un problema y tuve que copiar y pegar lo de la semana 1 en este nuevo repositorio para seguir trabajando
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Mi Presupuesto 💰
 
 Una aplicación web para gestionar gastos e ingresos personales desarrollada con React.
