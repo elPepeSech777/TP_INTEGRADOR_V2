@@ -19,3 +19,6 @@ export const STORAGE_KEYS = {
   MOVIMIENTOS: 'mi-presupuesto-movimientos',
   TEMA: 'mi-presupuesto-tema'
 };
+
+export const formatCurrency = (monto) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'ARS' }).format(monto);
+export const formatDate = (fecha) => new Date(fecha).toLocaleDateString('es-ES');

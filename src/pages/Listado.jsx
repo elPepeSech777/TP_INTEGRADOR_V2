@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { CATEGORIAS, TIPOS } from '../utils/constants';
+import { CATEGORIAS, TIPOS, formatCurrency, formatDate } from '../utils/constants';
 import './Listado.css';
 
 const Listado = () => {
@@ -51,16 +51,8 @@ const Listado = () => {
 
   const movimientosFiltrados = ordenarMovimientos(filtrarMovimientos());
 
-  const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-ES');
-  };
-
-  const formatearMonto = (monto) => {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'ARS'
-    }).format(monto);
-  };
+  const formatearFecha = (fecha) => formatDate(fecha);
+  const formatearMonto = (monto) => formatCurrency(monto);
 
   return (
     <div className="listado">

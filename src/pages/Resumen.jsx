@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
-import { TIPOS } from '../utils/constants';
+import { TIPOS, formatCurrency } from '../utils/constants';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -120,12 +120,7 @@ const Resumen = () => {
     }
   }), [colorTexto, gridColor, lineLabels]);
 
-  const formatearMonto = (monto) => {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'ARS'
-    }).format(monto);
-  };
+  const formatearMonto = (monto) => formatCurrency(monto);
 
   const formatearMes = (mes) => {
     const [año, mesNum] = mes.split('-');
