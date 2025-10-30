@@ -11,7 +11,11 @@ const Listado = () => {
     texto: '',
     categoria: '',
     tipo: '',
-    orden: 'fecha-desc'
+    orden: 'fecha-desc',
+    fechaDesde: '',
+    fechaHasta: '',
+    montoMin: '',
+    montoMax: ''
   });
 
   const filtrarMovimientos = () => {
@@ -19,8 +23,12 @@ const Listado = () => {
       const coincideTexto = mov.descripcion.toLowerCase().includes(filtros.texto.toLowerCase());
       const coincideCategoria = !filtros.categoria || mov.categoria === filtros.categoria;
       const coincideTipo = !filtros.tipo || mov.tipo === filtros.tipo;
-      
-      return coincideTexto && coincideCategoria && coincideTipo;
+      const fechaMov = new Date(mov.fecha);
+      const coincideFechaDesde = !filtros.fechaDesde || fechaMov >= new Date(filtros.fechaDesde);
+      const coincideFechaHasta = !filtros.fechaHasta || fechaMov <= new Date(filtros.fechaHasta);
+      const coincideMontoMin = filtros.montoMin === '' || mov.monto >= Number(filtros.montoMin);
+      const coincideMontoMax = filtros.montoMax === '' || mov.monto <= Number(filtros.montoMax);
+      return coincideTexto && coincideCategoria && coincideTipo && coincideFechaDesde && coincideFechaHasta && coincideMontoMin && coincideMontoMax;
     });
   };
 
@@ -96,6 +104,40 @@ const Listado = () => {
           <option value="monto-desc">Monto (mayor)</option>
           <option value="monto-asc">Monto (menor)</option>
         </select>
+
+        <input
+          type="date"
+          value={filtros.fechaDesde}
+          onChange={(e) => setFiltros(prev => ({ ...prev, fechaDesde: e.target.value }))}
+          className="filtro-input"
+          aria-label="Fecha desde"
+        />
+
+        <input
+          type="date"
+          value={filtros.fechaHasta}
+          onChange={(e) => setFiltros(prev => ({ ...prev, fechaHasta: e.target.value }))}
+          className="filtro-input"
+          aria-label="Fecha hasta"
+        />
+
+        <input
+          type="number"
+          min="0"
+          placeholder="Monto mín."
+          value={filtros.montoMin}
+          onChange={(e) => setFiltros(prev => ({ ...prev, montoMin: e.target.value }))}
+          className="filtro-input"
+        />
+
+        <input
+          type="number"
+          min="0"
+          placeholder="Monto máx."
+          value={filtros.montoMax}
+          onChange={(e) => setFiltros(prev => ({ ...prev, montoMax: e.target.value }))}
+          className="filtro-input"
+        />
       </div>
 
       <div className="movimientos">
