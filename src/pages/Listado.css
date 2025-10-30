@@ -25,6 +25,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 0.9rem;
+  outline: none;
 }
 
 .app.dark .filtro-input,
@@ -32,6 +33,18 @@
   background: #3c3c3c;
   border-color: #555;
   color: white;
+}
+
+.filtro-input:focus,
+.filtro-select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
+}
+
+.app.dark .filtro-input:focus,
+.app.dark .filtro-select:focus {
+  border-color: #8ab4f8;
+  box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.2);
 }
 
 .movimientos {
