@@ -1,6 +1,21 @@
+import { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { TIPOS } from '../utils/constants';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement
+} from 'chart.js';
+import { Doughnut, Line, Bar } from 'react-chartjs-2';
 import './Resumen.css';
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, BarElement);
 
 const Resumen = () => {
   const { movimientos } = useApp();
@@ -64,6 +79,47 @@ const Resumen = () => {
   const gastosPorCategoria = calcularGastosPorCategoria();
   const evolucionMensual = calcularEvolucionMensual();
 
+  const temaOscuroActivo = typeof document !== 'undefined' && document.body.classList.contains('dark');
+  const colorTexto = temaOscuroActivo ? '#ffffff' : '#2c3e50';
+  const gridColor = temaOscuroActivo ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+  const coloresCategorias = ['#e74c3c','#9b59b6','#3498db','#1abc9c','#f1c40f','#e67e22','#2ecc71','#34495e','#c0392b','#7f8c8d'];
+
+  const doughnutData = useMemo(() => ({
+    labels: gastosPorCategoria.map(g => g.categoria),
+    datasets: [{
+      data: gastosPorCategoria.map(g => g.monto),
+      backgroundColor: gastosPorCategoria.map((_, i) => coloresCategorias[i % coloresCategorias.length]),
+      borderWidth: 0
+    }]
+  }), [gastosPorCategoria]);
+
+  const doughnutOptions = useMemo(() => ({
+    plugins: {
+      legend: { position: 'bottom', labels: { color: colorTexto } },
+      tooltip: { callbacks: { label: (ctx) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'ARS' }).format(ctx.parsed) } }
+    }
+  }), [colorTexto]);
+
+  const lineLabels = evolucionMensual.map(e => e.mes);
+  const lineData = useMemo(() => ({
+    labels: lineLabels,
+    datasets: [
+      { label: 'Ingresos', data: evolucionMensual.map(e => e.ingresos), borderColor: '#2ecc71', backgroundColor: 'rgba(46, 204, 113, 0.2)', tension: 0.2 },
+      { label: 'Gastos', data: evolucionMensual.map(e => e.gastos), borderColor: '#e74c3c', backgroundColor: 'rgba(231, 76, 60, 0.2)', tension: 0.2 },
+      { label: 'Balance', data: evolucionMensual.map(e => e.balance), borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.2)', tension: 0.2 }
+    ]
+  }), [evolucionMensual]);
+
+  const lineOptions = useMemo(() => ({
+    responsive: true,
+    plugins: { legend: { labels: { color: colorTexto } }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'ARS' }).format(ctx.parsed.y)}` } } },
+    scales: {
+      x: { ticks: { color: colorTexto, callback: (val, i) => formatearMes(lineLabels[i]) }, grid: { color: gridColor } },
+      y: { ticks: { color: colorTexto, callback: (value) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'ARS' }).format(value) }, grid: { color: gridColor } }
+    }
+  }), [colorTexto, gridColor, lineLabels]);
+
   const formatearMonto = (monto) => {
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
@@ -100,24 +156,7 @@ const Resumen = () => {
         <div className="grafico-container">
           <h3>Gastos por Categoría</h3>
           {gastosPorCategoria.length > 0 ? (
-            <div className="categorias">
-              {gastosPorCategoria.map(({ categoria, monto }) => (
-                <div key={categoria} className="categoria-item">
-                  <div className="categoria-info">
-                    <span className="categoria-nombre">{categoria}</span>
-                    <span className="categoria-monto">{formatearMonto(monto)}</span>
-                  </div>
-                  <div className="categoria-barra">
-                    <div 
-                      className="categoria-progreso"
-                      style={{ 
-                        width: `${(monto / Math.max(...gastosPorCategoria.map(g => g.monto))) * 100}%` 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Doughnut data={doughnutData} options={doughnutOptions} />
           ) : (
             <p className="sin-datos">No hay gastos registrados</p>
           )}
@@ -126,26 +165,7 @@ const Resumen = () => {
         <div className="grafico-container">
           <h3>Evolución Mensual</h3>
           {evolucionMensual.length > 0 ? (
-            <div className="evolucion">
-              {evolucionMensual.map(({ mes, ingresos, gastos, balance }) => (
-                <div key={mes} className="mes-item">
-                  <div className="mes-header">
-                    <h4>{formatearMes(mes)}</h4>
-                    <span className={`balance-mes ${balance >= 0 ? 'positivo' : 'negativo'}`}>
-                      {formatearMonto(balance)}
-                    </span>
-                  </div>
-                  <div className="mes-detalle">
-                    <div className="mes-ingresos">
-                      <span>Ingresos: {formatearMonto(ingresos)}</span>
-                    </div>
-                    <div className="mes-gastos">
-                      <span>Gastos: {formatearMonto(gastos)}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Line data={lineData} options={lineOptions} />
           ) : (
             <p className="sin-datos">No hay datos para mostrar</p>
           )}
