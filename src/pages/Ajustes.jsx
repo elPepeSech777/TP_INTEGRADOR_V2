@@ -2,7 +2,7 @@ import { useApp } from '../context/AppContext';
 import './Ajustes.css';
 
 const Ajustes = () => {
-  const { temaOscuro, toggleTema, limpiarDatos } = useApp();
+  const { temaOscuro, toggleTema, limpiarDatos, restaurarDatosMock } = useApp();
 
   const handleLimpiarDatos = () => {
     if (window.confirm('¿Estás seguro de que quieres eliminar todos los datos? Esta acción no se puede deshacer.')) {
@@ -47,6 +47,13 @@ const Ajustes = () => {
               className="btn-danger"
             >
               Limpiar Datos
+            </button>
+            <button 
+              onClick={restaurarDatosMock}
+              className="btn-editar"
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Restaurar Mock
             </button>
           </div>
         </div>

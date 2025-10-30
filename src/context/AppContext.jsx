@@ -45,6 +45,10 @@ export const AppProvider = ({ children }) => {
     setMovimientos([]);
   };
 
+  const restaurarDatosMock = () => {
+    setMovimientos(datosMock);
+  };
+
   const toggleTema = () => {
     setTemaOscuro(prev => !prev);
   };
@@ -56,6 +60,7 @@ export const AppProvider = ({ children }) => {
     editarMovimiento,
     eliminarMovimiento,
     limpiarDatos,
+    restaurarDatosMock,
     toggleTema
   };
 
